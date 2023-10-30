@@ -2,7 +2,6 @@ package models
 
 import (
 	"image/color"
-	"sync"
 	"time"
 
 	"github.com/oakmound/oak/v4/alg/floatgeom"
@@ -27,36 +26,18 @@ func NewCar(ctx *scene.Context) *Car {
 	}
 }
 
-func (c *Car) Enqueue(queueCars *Queue) {
-
-	if queueCars.Size() == 0 {
-		for c.entity.Y() > 45 {
-
-			c.entity.ShiftY(-1)
-
-			time.Sleep(20 * time.Millisecond)
-		}
-
-		return
-	}
-
-	lastCar := queueCars.Last()
+func (c *Car) Enqueue() {
 
 	for c.entity.Y() > 45 {
 
-		if (c.entity.Y() - 10) < lastCar.entity.Y() {
-			c.entity.ShiftY(-1)
-		}
+		c.entity.ShiftY(-1)
 
 		time.Sleep(20 * time.Millisecond)
 	}
-	return
+
 }
 
-func (c *Car) JoinDoor(semaphore *Semaphore, doorM *sync.Mutex) {
-	semaphore.Wait()
-
-	doorM.Lock()
+func (c *Car) JoinDoor() {
 	for {
 		if c.entity.X() < entranceSpotX {
 			c.entity.ShiftX(1)
@@ -67,24 +48,19 @@ func (c *Car) JoinDoor(semaphore *Semaphore, doorM *sync.Mutex) {
 
 		time.Sleep(20 * time.Millisecond)
 	}
-	doorM.Unlock()
 }
 
-func (c *Car) ExitDoor(semaphore *Semaphore, doorM *sync.Mutex) {
-	doorM.Lock()
+func (c *Car) ExitDoor() {
 	for {
-		if c.entity.X() > 0 {
+		if c.entity.X() > 300 {
 			c.entity.ShiftX(-1)
 		}
-		if c.entity.X() == 0 {
+		if c.entity.X() == 300 {
 			break
 		}
 
 		time.Sleep(20 * time.Millisecond)
 	}
-	doorM.Unlock()
-
-	semaphore.Signal()
 }
 
 func (c *Car) Park(spot *ParkingSpot) {
@@ -168,22 +144,33 @@ func (c *Car) Leave(spot *ParkingSpot) {
 	}
 }
 
+func (c *Car) LeaveSpot() {
+	spotY := c.entity.Y()
+	for {
+		if c.entity.Y() < spotY+30 {
+			c.entity.ShiftY(1)
+		}
+		if c.entity.Y() == spotY+30 {
+			break
+		}
+
+		time.Sleep(20 * time.Millisecond)
+	}
+}
+
+func (c *Car) GoAway() {
+	for {
+		if c.entity.X() > -20 {
+			c.entity.ShiftX(-1)
+		}
+		if c.entity.X() == -20 {
+			break
+		}
+
+		time.Sleep(20 * time.Millisecond)
+	}
+}
+
 func (c *Car) Remove() {
 	c.entity.Destroy()
-}
-
-func (c *Car) GetEntityX() float64 {
-	return c.entity.X()
-}
-
-func (c *Car) GetEntityY() float64 {
-	return c.entity.Y()
-}
-
-func (c *Car) EntityShiftX(x float64) {
-	c.entity.ShiftX(x)
-}
-
-func (c *Car) EntityShiftY(y float64) {
-	c.entity.ShiftY(y)
 }

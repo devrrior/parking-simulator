@@ -2,7 +2,6 @@ package models
 
 import (
 	"github.com/oakmound/oak/v4/alg/floatgeom"
-	"sync"
 )
 
 type ParkingSpot struct {
@@ -11,7 +10,6 @@ type ParkingSpot struct {
 	directionsForLeaving *[]ParkingSpotDirection
 	number               int
 	isAvailable          bool
-	mu                   sync.RWMutex // Mutex para proteger la propiedad isAvailable
 }
 
 func NewParkingSpot(x, y, x2, y2 float64, row, number int) *ParkingSpot {
@@ -50,7 +48,7 @@ func getDirectionForParking(x, y float64, row int) *[]ParkingSpotDirection {
 func getDirectionsForLeaving(y float64) *[]ParkingSpotDirection {
 	var directions []ParkingSpotDirection
 
-	directions = append(directions, *newParkingSpotDirection("down", y+5))
+	//directions = append(directions, *newParkingSpotDirection("down", y+5))
 	directions = append(directions, *newParkingSpotDirection("right", 600))
 	directions = append(directions, *newParkingSpotDirection("up", 15))
 	directions = append(directions, *newParkingSpotDirection("left", 355))
@@ -75,13 +73,10 @@ func (p *ParkingSpot) GetDirectionsForLeaving() *[]ParkingSpotDirection {
 }
 
 func (p *ParkingSpot) GetIsAvailable() bool {
-	p.mu.RLock()
-	defer p.mu.RUnlock()
+
 	return p.isAvailable
 }
 
 func (p *ParkingSpot) SetIsAvailable(isAvailable bool) {
-	p.mu.Lock()
-	defer p.mu.Unlock()
 	p.isAvailable = isAvailable
 }
