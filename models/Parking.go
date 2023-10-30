@@ -5,32 +5,29 @@ import (
 )
 
 type Parking struct {
-	spotsMutex     sync.Mutex
-	availableSpots *sync.Cond
-	spots          []*ParkingSpot
-	queueCars      *CarQueue
+	spots         []*ParkingSpot
+	queueCars     *CarQueue
+	mu            sync.Mutex
+	availableCond *sync.Cond
 }
 
 func NewParking(spots []*ParkingSpot) *Parking {
 	queue := NewCarQueue()
-	cond := sync.NewCond(&sync.Mutex{})
-
-	return &Parking{
-		spots:          spots,
-		availableSpots: cond,
-		queueCars:      queue,
+	p := &Parking{
+		spots:     spots,
+		queueCars: queue,
 	}
+	p.availableCond = sync.NewCond(&p.mu)
+	return p
 }
 
 func (p *Parking) GetSpots() []*ParkingSpot {
-	p.spotsMutex.Lock()
-	defer p.spotsMutex.Unlock()
 	return p.spots
 }
 
 func (p *Parking) GetParkingSpotAvailable() *ParkingSpot {
-	p.spotsMutex.Lock()
-	defer p.spotsMutex.Unlock()
+	p.mu.Lock()
+	defer p.mu.Unlock()
 
 	for {
 		for _, spot := range p.spots {
@@ -39,16 +36,16 @@ func (p *Parking) GetParkingSpotAvailable() *ParkingSpot {
 				return spot
 			}
 		}
-
-		p.availableSpots.Wait()
+		p.availableCond.Wait()
 	}
 }
 
 func (p *Parking) ReleaseParkingSpot(spot *ParkingSpot) {
-	p.spotsMutex.Lock()
-	defer p.spotsMutex.Unlock()
+	p.mu.Lock()
+	defer p.mu.Unlock()
+
 	spot.SetIsAvailable(true)
-	p.availableSpots.Signal() // Notificar a una goroutine en espera
+	p.availableCond.Signal()
 }
 
 func (p *Parking) GetQueueCars() *CarQueue {

@@ -66,7 +66,7 @@ func main() {
 
 				isFirstTime = false
 
-				for i := 0; i < 50; i++ {
+				for i := 0; i < 100; i++ {
 					wg.Add(1)
 					go carCycle(ctx, &wg)
 
@@ -106,6 +106,8 @@ func carCycle(ctx *scene.Context, wg *sync.WaitGroup) {
 
 	queueCars.Enqueue(car)
 
+	spotAvailable := parking.GetParkingSpotAvailable()
+
 	doorMutex.Lock()
 
 	car.JoinDoor(carManager)
@@ -114,11 +116,9 @@ func carCycle(ctx *scene.Context, wg *sync.WaitGroup) {
 
 	queueCars.Dequeue()
 
-	spotAvailable := parking.GetParkingSpotAvailable()
-
 	car.Park(spotAvailable, carManager)
 
-	time.Sleep(time.Millisecond * time.Duration(getRandomNumber(1000, 8000)))
+	time.Sleep(time.Millisecond * time.Duration(getRandomNumber(40000, 50000)))
 
 	car.LeaveSpot(carManager)
 

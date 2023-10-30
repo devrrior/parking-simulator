@@ -12,7 +12,7 @@ import (
 
 const (
 	entranceSpotX = 355.00
-	speed         = 20
+	speed         = 10
 )
 
 type Car struct {
@@ -168,7 +168,7 @@ func (c *Car) Remove() {
 }
 
 func (c *Car) isCollision(direction string, cars []*Car) bool {
-	minDistance := 35.0
+	minDistance := 30.0
 	for _, car := range cars {
 		if direction == "left" {
 			if c.X() > car.X() && c.X()-car.X() < minDistance && c.Y() == car.Y() {
