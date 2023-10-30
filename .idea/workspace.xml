@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="791c06eb-972b-42b1-8355-395be61a5ce5" name="Changes" comment="refactor: remove incesary code with models">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+    <list default="true" id="791c06eb-972b-42b1-8355-395be61a5ce5" name="Changes" comment="feat: avoid collision between cars">
       <change beforePath="$PROJECT_DIR$/models/Car.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Car.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -74,7 +72,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fix: logic to join and leave parking" />
     <MESSAGE value="refactor: remove incesary code with models" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: remove incesary code with models" />
+    <MESSAGE value="feat: avoid collision between cars" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: avoid collision between cars" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

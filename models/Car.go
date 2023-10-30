@@ -10,7 +10,10 @@ import (
 	"github.com/oakmound/oak/v4/scene"
 )
 
-const entranceSpotX = 355.00
+const (
+	entranceSpotX = 355.00
+	speed         = 20
+)
 
 type Car struct {
 	area   floatgeom.Rect2
@@ -33,9 +36,8 @@ func (c *Car) Enqueue(manager *CarManager) {
 	for c.Y() > 45 {
 		if !c.isCollision("up", manager.GetCars()) {
 			c.ShiftY(-1)
+			time.Sleep(speed * time.Millisecond)
 		}
-
-		time.Sleep(20 * time.Millisecond)
 	}
 
 }
@@ -44,8 +46,8 @@ func (c *Car) JoinDoor(manager *CarManager) {
 	for c.X() < entranceSpotX {
 		if !c.isCollision("right", manager.GetCars()) {
 			c.ShiftX(1)
+			time.Sleep(speed * time.Millisecond)
 		}
-		time.Sleep(20 * time.Millisecond)
 	}
 }
 
@@ -53,8 +55,8 @@ func (c *Car) ExitDoor(manager *CarManager) {
 	for c.X() > 300 {
 		if !c.isCollision("left", manager.GetCars()) {
 			c.ShiftX(-1)
+			time.Sleep(speed * time.Millisecond)
 		}
-		time.Sleep(20 * time.Millisecond)
 	}
 }
 
@@ -65,15 +67,15 @@ func (c *Car) Park(spot *ParkingSpot, manager *CarManager) {
 			for c.X() < directions[index].Point {
 				if !c.isCollision("right", manager.GetCars()) {
 					c.ShiftX(1)
+					time.Sleep(speed * time.Millisecond)
 				}
-				time.Sleep(20 * time.Millisecond)
 			}
 		} else if directions[index].Direction == "down" {
 			for c.Y() < directions[index].Point {
 				if !c.isCollision("down", manager.GetCars()) {
 					c.ShiftY(1)
+					time.Sleep(speed * time.Millisecond)
 				}
-				time.Sleep(20 * time.Millisecond)
 			}
 		}
 	}
@@ -87,29 +89,29 @@ func (c *Car) Leave(spot *ParkingSpot, manager *CarManager) {
 			for c.X() > directions[index].Point {
 				if !c.isCollision("left", manager.GetCars()) {
 					c.ShiftX(-1)
+					time.Sleep(speed * time.Millisecond)
 				}
-				time.Sleep(20 * time.Millisecond)
 			}
 		} else if directions[index].Direction == "right" {
 			for c.X() < directions[index].Point {
 				if !c.isCollision("right", manager.GetCars()) {
 					c.ShiftX(1)
+					time.Sleep(speed * time.Millisecond)
 				}
-				time.Sleep(20 * time.Millisecond)
 			}
 		} else if directions[index].Direction == "up" {
 			for c.Y() > directions[index].Point {
 				if !c.isCollision("up", manager.GetCars()) {
 					c.ShiftY(-1)
+					time.Sleep(speed * time.Millisecond)
 				}
-				time.Sleep(20 * time.Millisecond)
 			}
 		} else if directions[index].Direction == "down" {
 			for c.Y() < directions[index].Point {
 				if !c.isCollision("down", manager.GetCars()) {
 					c.ShiftY(1)
+					time.Sleep(speed * time.Millisecond)
 				}
-				time.Sleep(20 * time.Millisecond)
 			}
 		}
 	}
@@ -120,6 +122,7 @@ func (c *Car) LeaveSpot(manager *CarManager) {
 	for c.Y() < spotY+30 {
 		if !c.isCollision("down", manager.GetCars()) {
 			c.ShiftY(1)
+			time.Sleep(speed * time.Millisecond)
 		}
 		time.Sleep(20 * time.Millisecond)
 	}
@@ -129,8 +132,8 @@ func (c *Car) GoAway(manager *CarManager) {
 	for c.X() > -20 {
 		if !c.isCollision("left", manager.GetCars()) {
 			c.ShiftX(-1)
+			time.Sleep(speed * time.Millisecond)
 		}
-		time.Sleep(20 * time.Millisecond)
 	}
 }
 
