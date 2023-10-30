@@ -29,7 +29,6 @@ func NewCar(ctx *scene.Context) *Car {
 func (c *Car) Enqueue() {
 
 	for c.entity.Y() > 45 {
-
 		c.entity.ShiftY(-1)
 
 		time.Sleep(20 * time.Millisecond)

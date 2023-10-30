@@ -14,7 +14,7 @@ type ParkingSpot struct {
 
 func NewParkingSpot(x, y, x2, y2 float64, row, number int) *ParkingSpot {
 	directionsForParking := getDirectionForParking(x, y, row)
-	directionsForLeaving := getDirectionsForLeaving(y2)
+	directionsForLeaving := getDirectionsForLeaving()
 	area := floatgeom.NewRect2(x, y, x2, y2)
 
 	return &ParkingSpot{
@@ -45,10 +45,9 @@ func getDirectionForParking(x, y float64, row int) *[]ParkingSpotDirection {
 	return &directions
 }
 
-func getDirectionsForLeaving(y float64) *[]ParkingSpotDirection {
+func getDirectionsForLeaving() *[]ParkingSpotDirection {
 	var directions []ParkingSpotDirection
 
-	//directions = append(directions, *newParkingSpotDirection("down", y+5))
 	directions = append(directions, *newParkingSpotDirection("right", 600))
 	directions = append(directions, *newParkingSpotDirection("up", 15))
 	directions = append(directions, *newParkingSpotDirection("left", 355))
