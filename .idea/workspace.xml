@@ -4,30 +4,42 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="791c06eb-972b-42b1-8355-395be61a5ce5" name="Changes" comment="fix: logic to join and leave parking">
+    <list default="true" id="791c06eb-972b-42b1-8355-395be61a5ce5" name="Changes" comment="refactor: remove incesary code with models">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/Car.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Car.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/ParkingSpot.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/ParkingSpot.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
   <component name="GOROOT" url="file:///usr/local/go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2XT9K6D8K0JKT29uzBKcV1MxskE" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "DefaultGoTemplateProperty": "Go File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.go.formatter.settings.were.checked": "true",
@@ -41,7 +53,7 @@
     "last_opened_file_path": "/Users/devrrior",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
-    "settings.editor.selected.configurable": "go.vgo"
+    "settings.editor.selected.configurable": "goland.project.structure"
   }
 }]]></component>
   <component name="RunManager">
@@ -61,7 +73,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fix: logic to join and leave parking" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: logic to join and leave parking" />
+    <MESSAGE value="refactor: remove incesary code with models" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: remove incesary code with models" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>

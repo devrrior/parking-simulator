@@ -44,9 +44,10 @@ var (
 		models.NewParkingSpot(515, 340, 545, 370, 4, 19),
 		models.NewParkingSpot(560, 340, 590, 370, 4, 20),
 	}
-	parking   = models.NewParking(spots)
-	queueCars = parking.GetQueueCars()
-	doorMutex sync.Mutex
+	parking    = models.NewParking(spots)
+	queueCars  = parking.GetQueueCars()
+	doorMutex  sync.Mutex
+	carManager = models.NewCarManager()
 )
 
 func main() {
@@ -99,13 +100,15 @@ func carCycle(ctx *scene.Context, wg *sync.WaitGroup) {
 
 	car := models.NewCar(ctx)
 
-	car.Enqueue()
+	carManager.AddCar(car)
+
+	car.Enqueue(carManager)
 
 	queueCars.Enqueue(car)
 
 	doorMutex.Lock()
 
-	car.JoinDoor()
+	car.JoinDoor(carManager)
 
 	doorMutex.Unlock()
 
@@ -113,27 +116,27 @@ func carCycle(ctx *scene.Context, wg *sync.WaitGroup) {
 
 	spotAvailable := parking.GetParkingSpotAvailable()
 
-	car.Park(spotAvailable)
+	car.Park(spotAvailable, carManager)
 
 	time.Sleep(time.Millisecond * time.Duration(getRandomNumber(1000, 8000)))
 
-	car.LeaveSpot()
+	car.LeaveSpot(carManager)
 
 	parking.ReleaseParkingSpot(spotAvailable)
 
-	car.Leave(spotAvailable)
+	car.Leave(spotAvailable, carManager)
 
-	// Bloquea el Mutex antes de intentar salir por la puerta
 	doorMutex.Lock()
 
-	car.ExitDoor()
+	car.ExitDoor(carManager)
 
-	// Desbloquea el Mutex después de salir por la puerta
 	doorMutex.Unlock()
 
-	car.GoAway()
+	car.GoAway(carManager)
 
 	car.Remove()
+
+	carManager.RemoveCar(car)
 }
 
 func getRandomNumber(min, max int) float64 {
