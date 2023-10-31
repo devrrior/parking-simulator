@@ -1,0 +1,31 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"ALL\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"4faf2018-2075-431b-a55d-6f7aa8e4dd03\" name=\"Changes\" comment=\"refactor: extract parking logic from main to scenes\">\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/models/Car.go\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/models/Car.go\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/models/ParkingSpot.go\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/models/ParkingSpot.go\" afterDir=\"false\" />\n      <change beforePath=\"$PROJECT_DIR$/scenes/ParkingScene.go\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/scenes/ParkingScene.go\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Go File\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"GOROOT\" url=\"file:///usr/local/go\" />\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"MarkdownSettingsMigration\">\n    <option name=\"stateVersion\" value=\"1\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;customColor&quot;: &quot;&quot;,\n  &quot;associatedIndex&quot;: 7\n}</component>\n  <component name=\"ProjectId\" id=\"2XUEdfqXganUeJI0suFmkuUKOnH\" />\n  <component name=\"ProjectLevelVcsManager\">\n    <ConfirmationsSetting value=\"1\" id=\"Add\" />\n  </component>\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"DefaultGoTemplateProperty\": \"Go File\",\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"RunOnceActivity.go.formatter.settings.were.checked\": \"true\",\n    \"RunOnceActivity.go.migrated.go.modules.settings\": \"true\",\n    \"RunOnceActivity.go.modules.automatic.dependencies.download\": \"true\",\n    \"RunOnceActivity.go.modules.go.list.on.any.changes.was.set\": \"true\",\n    \"WebServerToolWindowFactoryState\": \"false\",\n    \"git-widget-placeholder\": \"rodri-version\",\n    \"go.import.settings.migrated\": \"true\",\n    \"last_opened_file_path\": \"/Users/devrrior\",\n    \"node.js.detected.package.eslint\": \"true\",\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\n    \"settings.editor.selected.configurable\": \"preferences.lookFeel\"\n  }\n}]]></component>\n  <component name=\"RunManager\">\n    <configuration name=\"parking-concurrency\" type=\"GoApplicationRunConfiguration\" factoryName=\"Go Application\">\n      <module name=\"parking-concurrency\" />\n      <working_directory value=\"$PROJECT_DIR$\" />\n      <kind value=\"PACKAGE\" />\n      <package value=\"parking-concurrency\" />\n      <directory value=\"$PROJECT_DIR$\" />\n      <filePath value=\"$PROJECT_DIR$\" />\n      <method v=\"2\" />\n    </configuration>\n  </component>\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\n  <component name=\"TypeScriptGeneratedFilesManager\">\n    <option name=\"version\" value=\"3\" />\n  </component>\n  <component name=\"VcsManagerConfiguration\">\n    <MESSAGE value=\"refactor: update speed and time parking\" />\n    <MESSAGE value=\"refactor: extract parking logic from main to scenes\" />\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"refactor: extract parking logic from main to scenes\" />\n  </component>\n  <component name=\"VgoProject\">\n    <settings-migrated>true</settings-migrated>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -4,9 +4,8 @@
+     <option name="autoReloadType" value="ALL" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="4faf2018-2075-431b-a55d-6f7aa8e4dd03" name="Changes" comment="refactor: extract parking logic from main to scenes">
++    <list default="true" id="4faf2018-2075-431b-a55d-6f7aa8e4dd03" name="Changes" comment="refactor: rodri version">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/models/Car.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/Car.go" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/models/ParkingSpot.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/ParkingSpot.go" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/scenes/ParkingScene.go" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/ParkingScene.go" afterDir="false" />
+     </list>
+@@ -77,7 +76,8 @@
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="refactor: update speed and time parking" />
+     <MESSAGE value="refactor: extract parking logic from main to scenes" />
+-    <option name="LAST_COMMIT_MESSAGE" value="refactor: extract parking logic from main to scenes" />
++    <MESSAGE value="refactor: rodri version" />
++    <option name="LAST_COMMIT_MESSAGE" value="refactor: rodri version" />
+   </component>
+   <component name="VgoProject">
+     <settings-migrated>true</settings-migrated>

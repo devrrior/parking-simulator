@@ -44,7 +44,6 @@ var (
 		models.NewParkingSpot(560, 340, 590, 370, 4, 20),
 	}
 	parking    = models.NewParking(spots)
-	queueCars  = parking.GetQueueCars()
 	doorMutex  sync.Mutex
 	carManager = models.NewCarManager()
 )
@@ -103,8 +102,6 @@ func carCycle(ctx *scene.Context) {
 
 	car.Enqueue(carManager)
 
-	queueCars.Enqueue(car)
-
 	spotAvailable := parking.GetParkingSpotAvailable()
 
 	doorMutex.Lock()
@@ -112,8 +109,6 @@ func carCycle(ctx *scene.Context) {
 	car.JoinDoor(carManager)
 
 	doorMutex.Unlock()
-
-	queueCars.Dequeue()
 
 	car.Park(spotAvailable, carManager)
 

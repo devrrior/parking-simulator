@@ -18,6 +18,7 @@ func NewParking(spots []*ParkingSpot) *Parking {
 		queueCars: queue,
 	}
 	p.availableCond = sync.NewCond(&p.mu)
+
 	return p
 }
 
