@@ -3,6 +3,7 @@ package models
 import (
 	"github.com/oakmound/oak/v4/render"
 	"github.com/oakmound/oak/v4/render/mod"
+	"math/rand"
 	"sync"
 	"time"
 
@@ -23,17 +24,25 @@ type Car struct {
 }
 
 func NewCar(ctx *scene.Context) *Car {
-	area := floatgeom.NewRect2(300, 480, 320, 460)
+	var sprite *render.Sprite
 
-	// Cargar el sprite
-	sprite, err := render.LoadSprite("assets/images/MercedesAMG.png")
-	if err != nil {
-		panic(err)
+	area := floatgeom.NewRect2(300, 490, 320, 510)
+
+	carModelNum := int(getRandomNumber(1, 4))
+
+	if carModelNum == 1 {
+		sprite, _ = render.LoadSprite("assets/images/Ferrari_ontrack.png")
+	} else if carModelNum == 2 {
+		sprite, _ = render.LoadSprite("assets/images/Mclaren.png")
+	} else if carModelNum == 3 {
+		sprite, _ = render.LoadSprite("assets/images/MercedesAMG.png")
+	} else if carModelNum == 4 {
+		sprite, _ = render.LoadSprite("assets/images/RedBullRacing.png")
 	}
 
 	swtch := render.NewSwitch("left", map[string]render.Modifiable{
 		"up":    sprite,
-		"down":  sprite.Copy().Modify(mod.FlipX),
+		"down":  sprite.Copy().Modify(mod.FlipY),
 		"left":  sprite.Copy().Modify(mod.Rotate(90)),
 		"right": sprite.Copy().Modify(mod.Rotate(-90)),
 	})
@@ -215,4 +224,10 @@ func (c *Car) isCollision(direction string, cars []*Car) bool {
 		}
 	}
 	return false
+}
+
+func getRandomNumber(min, max int) float64 {
+	source := rand.NewSource(time.Now().UnixNano())
+	generator := rand.New(source)
+	return float64(generator.Intn(max-min+1) + min)
 }

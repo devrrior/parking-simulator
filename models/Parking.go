@@ -13,6 +13,7 @@ type Parking struct {
 
 func NewParking(spots []*ParkingSpot) *Parking {
 	queue := NewCarQueue()
+
 	p := &Parking{
 		spots:     spots,
 		queueCars: queue,

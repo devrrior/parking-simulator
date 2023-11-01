@@ -84,14 +84,17 @@ func (ps *ParkingScene) Start() {
 
 func setUpScene(ctx *scene.Context) {
 
-	parkingArea := floatgeom.NewRect2(350, 10, 630, 400)
-	entities.New(ctx, entities.WithRect(parkingArea), entities.WithColor(color.RGBA{86, 101, 115, 255}))
+	parkingArea := floatgeom.NewRect2(0, 0, 1000, 1000)
+	entities.New(ctx, entities.WithRect(parkingArea), entities.WithColor(color.RGBA{86, 101, 115, 255}), entities.WithDrawLayers([]int{0}))
 
-	parkingDoor := floatgeom.NewRect2(340, 10, 350, 70)
-	entities.New(ctx, entities.WithRect(parkingDoor), entities.WithColor(color.RGBA{255, 255, 255, 255}))
+	entities.New(ctx, entities.WithRect(floatgeom.NewRect2(340, 5, 630, 10)), entities.WithColor(color.RGBA{255, 255, 255, 255}), entities.WithDrawLayers([]int{0}))
+	entities.New(ctx, entities.WithRect(floatgeom.NewRect2(340, 400, 630, 405)), entities.WithColor(color.RGBA{255, 255, 255, 255}), entities.WithDrawLayers([]int{0}))
+	entities.New(ctx, entities.WithRect(floatgeom.NewRect2(340, 70, 345, 400)), entities.WithColor(color.RGBA{255, 255, 255, 255}), entities.WithDrawLayers([]int{0}))
+	entities.New(ctx, entities.WithRect(floatgeom.NewRect2(625, 10, 630, 400)), entities.WithColor(color.RGBA{255, 255, 255, 255}), entities.WithDrawLayers([]int{0}))
 
 	for _, spot := range spots {
-		entities.New(ctx, entities.WithRect(*spot.GetArea()), entities.WithColor(color.RGBA{212, 172, 13, 255}))
+		entities.New(ctx, entities.WithRect(floatgeom.NewRect2(spot.GetArea().Min.X(), spot.GetArea().Min.Y(), spot.GetArea().Min.X()+2.5, spot.GetArea().Max.Y())), entities.WithColor(color.RGBA{212, 172, 13, 255}))
+		entities.New(ctx, entities.WithRect(floatgeom.NewRect2(spot.GetArea().Max.X(), spot.GetArea().Min.Y(), spot.GetArea().Max.X()-2.5, spot.GetArea().Max.Y())), entities.WithColor(color.RGBA{212, 172, 13, 255}))
 	}
 }
 
