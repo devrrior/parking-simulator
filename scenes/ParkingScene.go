@@ -70,7 +70,7 @@ func (ps *ParkingScene) Start() {
 
 				isFirstTime = false
 
-				for i := 0; i < 100; i++ {
+				for {
 					go carCycle(ctx)
 
 					time.Sleep(time.Millisecond * time.Duration(getRandomNumber(1000, 2000)))
