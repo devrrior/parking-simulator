@@ -24,30 +24,27 @@ type Car struct {
 }
 
 func NewCar(ctx *scene.Context) *Car {
-	var sprite *render.Sprite
-
 	area := floatgeom.NewRect2(300, 490, 320, 510)
 
-	carModelNum := int(getRandomNumber(1, 4))
-
-	if carModelNum == 1 {
-		sprite, _ = render.LoadSprite("assets/images/Ferrari_ontrack.png")
-	} else if carModelNum == 2 {
-		sprite, _ = render.LoadSprite("assets/images/Mclaren.png")
-	} else if carModelNum == 3 {
-		sprite, _ = render.LoadSprite("assets/images/MercedesAMG.png")
-	} else if carModelNum == 4 {
-		sprite, _ = render.LoadSprite("assets/images/RedBullRacing.png")
+	modelToImage := map[int]string{
+		1: "assets/images/Ferrari_ontrack.png",
+		2: "assets/images/Mclaren.png",
+		3: "assets/images/MercedesAMG.png",
+		4: "assets/images/RedBullRacing.png",
 	}
+	carModelNum := int(getRandomNumber(1, 4))
+	carModel, _ := modelToImage[carModelNum]
 
-	swtch := render.NewSwitch("left", map[string]render.Modifiable{
+	sprite, _ := render.LoadSprite(carModel)
+
+	newSwitch := render.NewSwitch("up", map[string]render.Modifiable{
 		"up":    sprite,
 		"down":  sprite.Copy().Modify(mod.FlipY),
 		"left":  sprite.Copy().Modify(mod.Rotate(90)),
 		"right": sprite.Copy().Modify(mod.Rotate(-90)),
 	})
 
-	entity := entities.New(ctx, entities.WithRect(area), entities.WithRenderable(swtch), entities.WithDrawLayers([]int{1, 2}))
+	entity := entities.New(ctx, entities.WithRect(area), entities.WithRenderable(newSwitch), entities.WithDrawLayers([]int{1, 2}))
 
 	return &Car{
 		area:   area,
@@ -55,57 +52,61 @@ func NewCar(ctx *scene.Context) *Car {
 	}
 }
 
-func (c *Car) Enqueue(manager *CarManager) {
-
-	for c.Y() > 45 {
-		if !c.isCollision("up", manager.GetCars()) {
-			c.ShiftY(-1)
-			c.entity.Renderable.(*render.Switch).Set("up")
-			time.Sleep(speed * time.Millisecond)
+func (c *Car) moveTowards(direction string, point float64, manager *CarManager) {
+	if direction == "left" {
+		for c.X() > point {
+			if !c.isCollision("left", manager.GetCars()) {
+				c.entity.Renderable.(*render.Switch).Set("left")
+				c.ShiftX(-1)
+				time.Sleep(speed * time.Millisecond)
+			}
+		}
+	} else if direction == "right" {
+		for c.X() < point {
+			if !c.isCollision("right", manager.GetCars()) {
+				c.entity.Renderable.(*render.Switch).Set("right")
+				c.ShiftX(1)
+				time.Sleep(speed * time.Millisecond)
+			}
+		}
+	} else if direction == "up" {
+		for c.Y() > point {
+			if !c.isCollision("up", manager.GetCars()) {
+				c.entity.Renderable.(*render.Switch).Set("up")
+				c.ShiftY(-1)
+				time.Sleep(speed * time.Millisecond)
+			}
+		}
+	} else if direction == "down" {
+		for c.Y() < point {
+			if !c.isCollision("down", manager.GetCars()) {
+				c.entity.Renderable.(*render.Switch).Set("down")
+				c.ShiftY(1)
+				time.Sleep(speed * time.Millisecond)
+			}
 		}
 	}
+}
 
+func (c *Car) Enqueue(manager *CarManager) {
+	c.moveTowards("up", 45, manager)
 }
 
 func (c *Car) JoinDoor(manager *CarManager) {
-	for c.X() < entranceSpotX {
-		if !c.isCollision("right", manager.GetCars()) {
-			c.entity.Renderable.(*render.Switch).Set("right")
-			c.ShiftX(1)
-			time.Sleep(speed * time.Millisecond)
-		}
-	}
+	c.moveTowards("right", entranceSpotX, manager)
 }
 
 func (c *Car) ExitDoor(manager *CarManager) {
-	for c.X() > 300 {
-		if !c.isCollision("left", manager.GetCars()) {
-			c.entity.Renderable.(*render.Switch).Set("left")
-			c.ShiftX(-1)
-			time.Sleep(speed * time.Millisecond)
-		}
-	}
+	c.moveTowards("left", 300, manager)
 }
 
 func (c *Car) Park(spot *ParkingSpot, manager *CarManager) {
 	for index := 0; index < len(*spot.GetDirectionsForParking()); index++ {
 		directions := *spot.GetDirectionsForParking()
 		if directions[index].Direction == "right" {
-			for c.X() < directions[index].Point {
-				if !c.isCollision("right", manager.GetCars()) {
-					c.entity.Renderable.(*render.Switch).Set("right")
-					c.ShiftX(1)
-					time.Sleep(speed * time.Millisecond)
-				}
-			}
+			c.moveTowards("right", directions[index].Point, manager)
 		} else if directions[index].Direction == "down" {
-			for c.Y() < directions[index].Point {
-				if !c.isCollision("down", manager.GetCars()) {
-					c.entity.Renderable.(*render.Switch).Set("down")
-					c.ShiftY(1)
-					time.Sleep(speed * time.Millisecond)
-				}
-			}
+			c.moveTowards("down", directions[index].Point, manager)
 		}
 	}
 }
@@ -114,62 +115,24 @@ func (c *Car) Leave(spot *ParkingSpot, manager *CarManager) {
 	for index := 0; index < len(*spot.GetDirectionsForLeaving()); index++ {
 		directions := *spot.GetDirectionsForLeaving()
 		if directions[index].Direction == "left" {
-
-			for c.X() > directions[index].Point {
-				if !c.isCollision("left", manager.GetCars()) {
-					c.entity.Renderable.(*render.Switch).Set("left")
-					c.ShiftX(-1)
-					time.Sleep(speed * time.Millisecond)
-				}
-			}
+			c.moveTowards("left", directions[index].Point, manager)
 		} else if directions[index].Direction == "right" {
-			for c.X() < directions[index].Point {
-				if !c.isCollision("right", manager.GetCars()) {
-					c.entity.Renderable.(*render.Switch).Set("right")
-					c.ShiftX(1)
-					time.Sleep(speed * time.Millisecond)
-				}
-			}
+			c.moveTowards("right", directions[index].Point, manager)
 		} else if directions[index].Direction == "up" {
-			for c.Y() > directions[index].Point {
-				if !c.isCollision("up", manager.GetCars()) {
-					c.entity.Renderable.(*render.Switch).Set("up")
-					c.ShiftY(-1)
-					time.Sleep(speed * time.Millisecond)
-				}
-			}
+			c.moveTowards("up", directions[index].Point, manager)
 		} else if directions[index].Direction == "down" {
-			for c.Y() < directions[index].Point {
-				if !c.isCollision("down", manager.GetCars()) {
-					c.entity.Renderable.(*render.Switch).Set("down")
-					c.ShiftY(1)
-					time.Sleep(speed * time.Millisecond)
-				}
-			}
+			c.moveTowards("down", directions[index].Point, manager)
 		}
 	}
 }
 
 func (c *Car) LeaveSpot(manager *CarManager) {
 	spotY := c.Y()
-	for c.Y() < spotY+30 {
-		if !c.isCollision("down", manager.GetCars()) {
-			c.entity.Renderable.(*render.Switch).Set("down")
-			c.ShiftY(1)
-			time.Sleep(speed * time.Millisecond)
-		}
-		time.Sleep(20 * time.Millisecond)
-	}
+	c.moveTowards("up", spotY-30, manager)
 }
 
 func (c *Car) GoAway(manager *CarManager) {
-	for c.X() > -20 {
-		if !c.isCollision("left", manager.GetCars()) {
-			c.entity.Renderable.(*render.Switch).Set("left")
-			c.ShiftX(-1)
-			time.Sleep(speed * time.Millisecond)
-		}
-	}
+	c.moveTowards("left", -20, manager)
 }
 
 func (c *Car) ShiftY(dy float64) {
